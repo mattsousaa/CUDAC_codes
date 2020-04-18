@@ -65,24 +65,24 @@ dim3 block(dimx, dimy);
 dim3 grid((nx+block.x-1)/block.x, (ny+block.y-1)/block.y);
 */
 
-/*
+
 // ########## 1D x 1D ##########
-int dimx = 128;
+int dimx = 32;
 dim3 block(dimx);
-dim3 grid((nx+block.x-1)/block.x,1);
-*/
+dim3 grid((nx+block.x-1)/block.x);
 
 
+/*
 // ########## 2D x 1D ##########
 int dimx = 32;
 dim3 block(dimx);
 dim3 grid((nx + block.x - 1) / block.x, ny);
-
+*/
 
 iStart = cpuSecond();
 //sumMatrixOnGPU2D <<< grid, block >>>(d_MatA, d_MatB, d_MatC, nx, ny);
-//sumMatrixOnGPU1D <<< grid, block >>>(d_MatA, d_MatB, d_MatC, nx, ny);
-sumMatrixOnGPUMix <<< grid, block >>>(d_MatA, d_MatB, d_MatC, nx, ny);
+sumMatrixOnGPU1D <<< grid, block >>>(d_MatA, d_MatB, d_MatC, nx, ny);
+//sumMatrixOnGPUMix <<< grid, block >>>(d_MatA, d_MatB, d_MatC, nx, ny);
 cudaDeviceSynchronize();
 iElaps = cpuSecond() - iStart;
 printf("sumMatrixOnGPU2D <<<(%d,%d), (%d,%d)>>> elapsed %f sec\n", grid.x, grid.y, block.x, block.y, iElaps);
